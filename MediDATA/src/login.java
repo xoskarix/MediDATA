@@ -1,19 +1,22 @@
+package MediDATA;
 import java.io.*;
 import java.util.Scanner;
 import java.security.NoSuchAlgorithmException;
 
 public class login {
+    public static String wybranyTyp;
+    public static String nazwa;
+
     public static void main(String[] args) {
         Scanner s = new Scanner(System.in);
         System.out.println("LOGOWANIE\nWybierz jedną z opcji: ");
         System.out.println("1. Lekarz");
         System.out.println("2. Pielęgniarka");
         String choice = s.nextLine();
-        String wybranyTyp = "";
         switch (choice) {
-            case "1" -> wybranyTyp = "lekarz";
-            case "2" -> wybranyTyp = "pielęgniarka";
-            default -> {
+            case "1" : wybranyTyp = "lekarz"; break;
+            case "2" : wybranyTyp = "pielęgniarka"; break;
+            default : {
                 System.out.println("Nieprawidłowa opcja!");
                 System.out.println("Naciśnij ENTER, aby kontynuować...");
                 s.nextLine();
@@ -26,14 +29,15 @@ public class login {
         String pass = s.nextLine();
         try {
             String hash = SHA256.hash_str(SHA256.hashuj(pass));
-            BufferedReader br = new BufferedReader(new FileReader("acc"));
+            BufferedReader br = new BufferedReader(new FileReader("MediDATA/acc"));
             String line;
             boolean acc_exists = false;
             while ((line = br.readLine()) != null) {
                 if (line.equals(wybranyTyp +":" + username + ":" + hash)) {
                     acc_exists = true;
+                    nazwa = username;
                     System.out.println("Pomyślnie zalogowano.");
-                    zalogowany(username, wybranyTyp);
+                    baza.edytujBaze(username, wybranyTyp);
                 }
             }
             if (!acc_exists) {
@@ -58,14 +62,6 @@ public class login {
             s.nextLine();
             System.exit(-1);
         }
-    }
-    public static void zalogowany(String nazwa, String typ) {
-        Scanner s = new Scanner(System.in);
-        System.out.println("Witaj " + nazwa + "!");
-        System.out.println("Typ konta: " + typ);
-        System.out.println("Podaj imię i nazwisko pacjenta: ");
-        String pacjent = s.nextLine();
-        // dajesz oskar lecisz
     }
 }
 
