@@ -29,7 +29,7 @@ public class login {
         String pass = s.nextLine();
         try {
             String hash = SHA256.hash_str(SHA256.hashuj(pass));
-            BufferedReader br = new BufferedReader(new FileReader("MediDATA/acc"));
+            BufferedReader br = new BufferedReader(new FileReader("acc"));
             String line;
             boolean acc_exists = false;
             while ((line = br.readLine()) != null) {

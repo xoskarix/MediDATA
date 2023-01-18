@@ -34,7 +34,7 @@ public class setup {
             String hash = SHA256.hash_str(SHA256.hashuj(pass));
             if(hash.equals("c58827c3a132a36765ffda3e6ffbf411f4a0c89ba13c830144f5d8f0ffb71df7")) { // sprawdza czy hash podanego hasla zgadza sie z haslem bezpieczenstwa
                 System.out.println("Hasło poprawne.");
-                File konta = new File("MediDATA/acc");
+                File konta = new File("acc");
                 if (konta.createNewFile()) { // w wypadku gdyby plik z kontami nie istnial w folderze
                     System.out.println("Nie znaleziono pliku acc. Upewnij się, że nie został on zmodyfikowany ręcznie ani nie został przeniesiony.");
                     System.out.println("Utworzono nowy plik acc.");
@@ -42,7 +42,7 @@ public class setup {
                 // samo tworzenie konta
                 System.out.println("Podaj nową nazwę administratora: ");
                 String new_username = s.nextLine();
-                BufferedReader br = new BufferedReader(new FileReader("MediDATA/acc"));
+                BufferedReader br = new BufferedReader(new FileReader("acc"));
                 String line;
                 while((line = br.readLine()) != null) {
                     if(line.contains(new_username)) {
@@ -54,7 +54,7 @@ public class setup {
                 }
                 System.out.println("Podaj nowe hasło: ");
                 String pass_hash = SHA256.hash_str(SHA256.hashuj(s.nextLine()));
-                BufferedWriter writer = new BufferedWriter(new FileWriter("MediDATA/acc", true));
+                BufferedWriter writer = new BufferedWriter(new FileWriter("acc", true));
                 writer.append("\n"+"admin:"+new_username+":"+pass_hash);
                 writer.close();
                 System.out.println("Pomyślnie dodano nowe konto administratora.");
@@ -76,8 +76,9 @@ public class setup {
         } catch (IOException e) {
             System.out.println("Wystąpił błąd z plikiem acc. Upewnij się, że posiadasz odpowiednie uprawnienia.");
             System.out.println("Naciśnij ENTER, aby kontynuować...");
-            s.nextLine();
-            System.exit(-1);
+            System.out.println(e);
+//            s.nextLine();
+//            System.exit(-1);
         }
 
     }
@@ -90,7 +91,7 @@ public class setup {
         String pass = s.nextLine();
         try {
             String hash = SHA256.hash_str(SHA256.hashuj(pass));
-            BufferedReader br = new BufferedReader(new FileReader("MediDATA/acc"));
+            BufferedReader br = new BufferedReader(new FileReader("acc"));
             String line;
             boolean acc_exists = false;
             while((line = br.readLine()) != null) {
@@ -117,7 +118,7 @@ public class setup {
                     }
                     System.out.println("Podaj nowe hasło: ");
                     String pass_hash = SHA256.hash_str(SHA256.hashuj(s.nextLine()));
-                    BufferedWriter writer = new BufferedWriter(new FileWriter("MediDATA/acc", true));
+                    BufferedWriter writer = new BufferedWriter(new FileWriter("acc", true));
                     writer.append("\n"+typ+":"+new_username+":"+pass_hash);
                     writer.close();
                     System.out.println("Pomyślnie dodano nowe konto.");
